@@ -8,8 +8,20 @@ import (
 )
 
 func main() {
+	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/phteven", phtevenHandler)
+	http.ListenAndServe(":8080", nil)
+
 	body, _ := getPhtevenResponseBody()
 	fmt.Printf("Response: %s\n", body)
+}
+
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "This is the home page!")
+}
+
+func phtevenHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Phteven!")
 }
 
 func getPhtevenResponseBody() ([]byte, error) {
