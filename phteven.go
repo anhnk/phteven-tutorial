@@ -2,12 +2,19 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 )
 
 func main() {
-	// Declare variable
 	url := "http://api.phteven.io/"
 
-	// Package fmt implements formatted I/O with functions analogous to C's printf and scanf. The format 'verbs' are derived from C's but are simpler.
+	// Go uses error values to indicate an abnormal state.
+	// Making errors part of the code is clearer than throwing exception.
+	_, err := http.Get("test")
+	if err != nil {
+		fmt.Printf("Error sending request: %v\n", err)
+		return
+	}
+
 	fmt.Printf("Our API url is %s\n", url)
 }
