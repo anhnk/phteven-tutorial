@@ -14,8 +14,10 @@ func main() {
 
 func getPhtevenResponseBody() ([]byte, error) {
 	url := "http://api.phteven.io/translate/"
+	dog := Dog{"Phteven", 3, "Stephen is a silly sausage who drinks at starbucks"}
 
-	response, err := http.Post(url, "application/x-www-form-urlencoded", bytes.NewBufferString("text=Stephen is a silly sausage who drinks at starbucks"))
+	requestBody := bytes.NewBufferString(fmt.Sprintf("text=%s", dog.motto))
+	response, err := http.Post(url, "application/x-www-form-urlencoded", requestBody)
 	if err != nil {
 		fmt.Printf("Error sending request: %v\n", err)
 		return []byte(""), err
@@ -30,4 +32,12 @@ func getPhtevenResponseBody() ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+// -------------
+// Dog
+type Dog struct {
+	name  string
+	age   int
+	motto string
 }
