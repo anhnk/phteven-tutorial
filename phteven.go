@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -12,9 +13,9 @@ func main() {
 }
 
 func getPhtevenResponseBody() ([]byte, error) {
-	url := "http://api.phteven.io/"
+	url := "http://api.phteven.io/translate/"
 
-	response, err := http.Get(url)
+	response, err := http.Post(url, "application/x-www-form-urlencoded", bytes.NewBufferString("text=Stephen is a silly sausage who drinks at starbucks"))
 	if err != nil {
 		fmt.Printf("Error sending request: %v\n", err)
 		return []byte(""), err
