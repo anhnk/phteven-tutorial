@@ -11,9 +11,6 @@ func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/phteven", phtevenHandler)
 	http.ListenAndServe(":8080", nil)
-
-	body, _ := getPhtevenResponseBody()
-	fmt.Printf("Response: %s\n", body)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,12 +18,14 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func phtevenHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Phteven!")
+	text := r.URL.Query().Get("text")
+	body, _ := getPhtevenResponseBody(text)
+	fmt.Fprintf(w, "%s", body)
 }
 
-func getPhtevenResponseBody() ([]byte, error) {
+func getPhtevenResponseBody(text string) ([]byte, error) {
 	url := "http://api.phteven.io/translate/"
-	dog := Dog{"Phteven", 3, "Stephen is a silly sausage who drinks at starbucks"}
+	dog := Dog{"Phteven", 3, text}
 
 	requestBody := bytes.NewBufferString(fmt.Sprintf("text=%s", dog.say()))
 	response, err := http.Post(url, "application/x-www-form-urlencoded", requestBody)
